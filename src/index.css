@@ -1,0 +1,239 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262.1 83.3% 57.8%;
+    --radius: 0.75rem;
+    --tertiary: 280 85% 65%;
+    --tertiary-foreground: 210 20% 98%;
+  }
+
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 263.4 70% 50.4%;
+    --tertiary: 280 85% 50%;
+    --tertiary-foreground: 210 20% 98%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Application des polices spéciales */
+  h1, h2, h3, .font-serif, .card-title {
+    font-family: 'Playfair Display', serif;
+  }
+  
+  /* Amélioration des cartes */
+  .card {
+    @apply transition-shadow duration-300 hover:shadow-md;
+  }
+  
+  /* Amélioration des boutons */
+  button {
+    @apply transition-all duration-200;
+  }
+  
+  /* Effet sur les liens */
+  a:not(.btn):not(.no-underline) {
+    @apply relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full;
+  }
+}
+
+/* Nouvelles classes pour améliorer l'expérience mobile */
+@layer utilities {
+  .touch-target {
+    @apply min-h-[48px];
+  }
+  
+  /* Animations */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .animate-slide-in-right {
+    animation: slideInRight 0.3s ease-in-out;
+  }
+  
+  .animate-slide-in-bottom {
+    animation: slideInBottom 0.3s ease-in-out;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInBottom {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Amélioration du scrolling sur mobile */
+html, body {
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+/* Améliorations pour les dialogues sur mobile */
+.dialog-content-mobile {
+  height: calc(100vh - 80px);
+  max-height: calc(100vh - 80px);
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.dialog-content-mobile .dialog-body {
+  padding: 1rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 160px);
+}
+
+.dialog-content-mobile .dialog-footer {
+  position: sticky;
+  bottom: 0;
+  background-color: var(--background);
+  padding: 0.75rem;
+  border-top: 1px solid var(--border);
+  z-index: 10;
+}
+
+.dialog-scroll-content {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 1rem;
+  padding-bottom: 80px;
+}
+
+/* Style pour les formulaires sur mobile */
+.mobile-form-container {
+  @apply px-2 py-2 max-w-full;
+  height: auto;
+  max-height: calc(100dvh - 150px);
+  overflow-y: auto;
+  padding-bottom: 70px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Style pour les champs de formulaire sur mobile */
+.mobile-form-field {
+  @apply mb-3;
+}
+
+.mobile-form-field label {
+  @apply text-sm font-medium mb-1 block;
+}
+
+.mobile-form-field input,
+.mobile-form-field textarea {
+  @apply text-sm w-full;
+}
+
+/* Pour les écrans de petite taille */
+@media (max-width: 640px) {
+  .mobile-padding {
+    @apply px-2;
+  }
+  
+  .mobile-spacing {
+    @apply space-y-2;
+  }
+  
+  .mobile-text {
+    @apply text-sm;
+  }
+  
+  /* Ajustements pour les dialogues */
+  .dialog-content {
+    @apply p-3;
+    width: calc(100% - 20px);
+    max-width: calc(100% - 20px);
+  }
+  
+  /* Ajustements pour les boutons */
+  button {
+    @apply touch-target;
+  }
+  
+  /* Ajustements pour les formulaires */
+  textarea {
+    @apply text-sm;
+  }
+  
+  /* Ajustements pour le défilement */
+  .scroll-container {
+    @apply overflow-y-auto;
+    max-height: calc(100dvh - 180px);
+    padding-bottom: 70px;
+  }
+}
