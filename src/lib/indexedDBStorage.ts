@@ -67,23 +67,26 @@ const openDatabase = (): Promise<IDBDatabase> => {
  * Compresse un Blob en utilisant CompressionStream si disponible
  */
 async function compressBlob(blob: Blob): Promise<Blob> {
-  // Si la compression n'est pas supportée, retourner le blob original
   if (!compressionSupported) {
     return blob;
   }
   
   try {
-    // Créer un readableStream à partir du blob
+    // Optimiser la taille des images avant compression
+    if (blob.type.startsWith('image/')) {
+      const optimizedBlob = await optimizeImage(blob);
+      blob = optimizedBlob;
+    }
+    
+    // Double compression pour un meilleur ratio
     const blobStream = (blob as any).stream();
+    let compressedStream = blobStream.pipeThrough(new CompressionStream('deflate'));
+    compressedStream = compressedStream.pipeThrough(new CompressionStream('gzip'));
     
-    // Compresser le stream avec GZIP
-    const compressedStream = blobStream.pipeThrough(new CompressionStream('gzip'));
-    
-    // Convertir le stream compressé en Blob
     return new Response(compressedStream).blob();
   } catch (error) {
     console.error('Erreur lors de la compression:', error);
-    return blob; // En cas d'erreur, retourner le blob non compressé
+    return blob;
   }
 }
 
@@ -115,8 +118,8 @@ async function decompressBlob(compressedBlob: Blob): Promise<Blob> {
  * Optimise une image avant stockage (redimensionnement et compression)
  */
 async function optimizeImage(imageBlob: Blob): Promise<Blob> {
-  // Si c'est une image de moins de 50KB, pas besoin d'optimiser
-  if (imageBlob.size <= 50 * 1024) {
+  // Optimiser toutes les images au-dessus de 20KB
+  if (imageBlob.size <= 20 * 1024) {
     return imageBlob;
   }
   
