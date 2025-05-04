@@ -29,3 +29,7 @@ args = "bun install"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "bun run dev"
+
+[[ports]]
+localPort = 8080
+externalPort = 80
