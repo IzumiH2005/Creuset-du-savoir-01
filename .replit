@@ -9,6 +9,23 @@ requiredFiles = [".replit", "replit.nix", "package.json", "package-lock.json"]
 channel = "stable-24_11"
 
 [deployment]
-run = ["node", "index.js"]
+run = ["sh", "-c", "vite preview"]
 deploymentTarget = "autoscale"
 ignorePorts = false
+build = ["sh", "-c", "bun install && bun run build"]
+
+[workflows]
+runButton = "Dev"
+
+[[workflows.workflow]]
+name = "Dev"
+author = 42247829
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bun install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bun run dev"
